@@ -1,0 +1,54 @@
+var config = {
+    apiKey: "AIzaSyCjw3ZOOzTjEiAs4FX0yVvnevh06UwoeMs",
+    authDomain: "fudmeh.firebaseapp.com",
+    databaseURL: "https://fudmeh.firebaseio.com",
+    projectId: "fudmeh",
+    storageBucket: "",
+    messagingSenderId: "426120982640"
+};
+firebase.initializeApp(config);
+
+
+// Create a variable to reference the database
+var database = firebase.database();
+
+//  Create variables for latitude and longitude
+let lat = "29.7325483";
+let lon = "-95.5512395"
+
+//  Create variable holding the search url including parameters
+let queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lon + "&radius=10&sort=real_distance&count=5";
+
+//  AJAX call to Zomato
+$.ajax({
+    url: queryURL,
+    method: 'GET',
+    headers : {
+        'Accept': 'application/json',
+        'user-key': 'faf6b95bf12c6d16066378598f219943'
+    }
+}).then(function (response) {
+    //  Calling the zomato JSON information manipulation
+    zomato(response);
+})
+
+//  Create function to handle zomato JSON
+function zomato(x){
+    //  Console log the zomato JSON to manipulate
+    console.log(x);
+
+    //  Iterate through the JSON retrived from zomato
+    for(var i = 0; i < x.results_shown; i++){
+
+        console.log(x.restaurants[i].restaurant.name)
+
+        database.ref('fuudMeh').push({
+            name: x.restaurants[i].restaurant.name,
+            img: x.restaurants[i].restaurant.photos_url,
+            url: x.restaurants[i].restaurant.url,
+            location: x.restaurants[i].restaurant.location
+        })
+    }
+}
+
+
