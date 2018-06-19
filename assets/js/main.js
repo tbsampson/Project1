@@ -13,9 +13,14 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 //  Create variables for latitude and longitude
-let lat = "29.7325483";
-let lon = "-95.5512395"
+let userlat = "";
+let userlon = "";
 
+database.ref('location').on('value', function(snapshot){
+    console.log(snapshot.val())
+    lat = snapshot.val().lat;
+    lon = snapshot.val().lon;
+    
 //  Create variable holding the search url including parameters
 let queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lon + "&radius=10&sort=real_distance&count=5";
 
@@ -38,10 +43,8 @@ function zomato(x){
     console.log(x);
 
     //  Iterate through the JSON retrived from zomato
+    //  Push zomato JSON to firebase
     for(var i = 0; i < x.results_shown; i++){
-
-        console.log(x.restaurants[i].restaurant.name)
-
         database.ref('fuudMeh').push({
             name: x.restaurants[i].restaurant.name,
             img: x.restaurants[i].restaurant.photos_url,
@@ -51,4 +54,4 @@ function zomato(x){
     }
 }
 
-
+});
