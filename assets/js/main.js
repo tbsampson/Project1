@@ -13,11 +13,16 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 //  Create variables for latitude and longitude
-let lat = "29.7325483";
-let lon = "-95.5512395"
+let lat = "";
+let lon = "";
+
+//  Pull users lat and longitude from firebase
+database.ref('location').on('value', function(snapshot){
+    lat = snapshot.val().lat;
+    lon = snapshot.val().lng;
 
 //  Create variable holding the search url including parameters
-let queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lon + "&radius=10&sort=real_distance&count=5";
+    let queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lon + "&radius=10&sort=real_distance&count=5&cuisines=chinese";
 
 //  AJAX call to Zomato
 $.ajax({
@@ -38,17 +43,19 @@ function zomato(x){
     console.log(x);
 
     //  Iterate through the JSON retrived from zomato
+    //  Push zomato JSON to firebase
     for(var i = 0; i < x.results_shown; i++){
-
-        console.log(x.restaurants[i].restaurant.name)
-
         database.ref('fuudMeh').push({
             name: x.restaurants[i].restaurant.name,
             img: x.restaurants[i].restaurant.photos_url,
             url: x.restaurants[i].restaurant.url,
-            location: x.restaurants[i].restaurant.location
-        })
+            location: x.restaurants[i].restaurant.location,
+            id: x.restaurants[i].restaurant.id,
+            cuisines: x.restaurants[i].restaurant.cuisines
+            })
+
+        console.log(x.restaurants[i].restaurant.cuisines)
     }
 }
 
-
+});
