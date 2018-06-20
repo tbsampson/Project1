@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FüdMeh!</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<link href="assets/css/restaurants.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+	</header>
+	<main role="main">
+		<!-- Map Start -->
+		<div class="restaurants-map">
+			<div class="google-map">
+				<!-- Map Displays Here -->
+			</div>
+				<!-- Map Legend Start -->
+			<div class="google-map-legend col-sm-2 hidden-xs">
+				<h2 class="btn-dark pl-3 pt-3" id="füdMeh">FüdMeh!</h2>
+				<ul class="google-map-categories">
+					<li class="google-map-category-american" data-location-category="american">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						American
+					</li>
+					<li class="google-map-category-mexican" data-location-category="mexican">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						Mexican
+					</li>					
+					<li class="google-map-category-chinese" data-location-category="chinese">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						Chinese
+					</li>
+					<li class="google-map-category-indian" data-location-category="indian">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						Indian
+					</li>
+					<li class="google-map-category-japanese" data-location-category="japanese">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						Japanese
+					</li>
+					<li class="google-map-category-korean" data-location-category="korean">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						Korean
+					</li>
+					<li class="google-map-category-vietnamese" data-location-category="vietnamese">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						Vietnamese
+					</li>					
+					<li class="google-map-category-thai" data-location-category="thai">
+						<div class="google-map-category-toggle"><img class="mapicon mapicon-ok"></div>
+						Thai
+					</li>
+				</ul>
+			</div>
+			<!-- Map Legend End -->
+		</div>
+	</main>
+	<footer>
+		<div class="container">
+		</div>
+	</footer>
+<!-- Start Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/popper.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZWROu2McODk1fFeC1BZsiIcQ6T1yLB5o&libraries=places" type="text/javascript"></script>
+<script src="assets/js/categorizable-map.min.js"></script>
+<script src="assets/js/map.js"></script>
+<!-- for later <script src="assets/js/restaurants.js"></script> -->
+<script src="assets/js/main.js"></script>
+<script>
+$(function() {
+	var restaurantMap = new RestaurantMap('.google-map', 'assets/img/');
+	// 'markers' declared in restaurants.js
+	$.each(markers, function(i, marker) {
+		restaurantMap.addMarker(
+			marker.category,
+			marker.lat,
+			marker.lng,
+			marker.object
+		);
+	});
+	restaurantMap.finalize();
+});
+</script>
+<!-- End Scripts -->
+</body>
+</html>
