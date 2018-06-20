@@ -75,35 +75,35 @@ body {
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-american .google-map-category-toggle {
-    background-color: #e37933
+    content:url("../img/google-icon-american.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-mexican .google-map-category-toggle {
-    background-color: #73c983
+    content:url("../img/google-icon-mexican.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-thai .google-map-category-toggle {
-    background-color: #cbcb41
+    content:url("../img/google-icon-thai.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-chinese .google-map-category-toggle {
-    background-color: #519aba
+    content:url("../img/google-icon-chinese.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-indian .google-map-category-toggle {
-    background-color: #9e9ea0
+    content:url("../img/google-icon-indian.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-japanese .google-map-category-toggle {
-    background-color: #007acc
+    content:url("../img/google-icon-japanese.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-korean .google-map-category-toggle {
-    background-color: #a08969
+    content:url("../img/google-icon-korean.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li.google-map-category-vietnamese .google-map-category-toggle {
-    background-color: #ff0000
+    content:url("../img/google-icon-vietnamese.png")
 }
 
 .restaurants-map .google-map-legend ul.google-map-categories li:hover {
@@ -121,3 +121,15 @@ body {
     opacity: 1 !important;
     filter: alpha(opacity=100) !important
 }
+
+grayflag {
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+    filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+  }
+  
+  /* Disable grayscale on hover */
+grayflag:hover {
+    -webkit-filter: grayscale(0);
+    filter: none;
+  }
