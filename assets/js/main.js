@@ -52,8 +52,6 @@ function zomato(x){
             id: x.restaurants[i].restaurant.id,
             cuisines: x.restaurants[i].restaurant.cuisines
             })
-
-        console.log(x.restaurants[i].restaurant.cuisines)
     }
 }
 
