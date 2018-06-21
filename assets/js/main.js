@@ -66,10 +66,10 @@ function zomato(x){
                 map: x.restaurants[i].restaurant.location.address
                 }    
             }
-    console.log(restaurant)
+    
     
     }
-
+console.log(restaurant)
 
 }
 
