@@ -21,7 +21,7 @@ database.ref('location').on('value', function(snapshot){
     lon = snapshot.val().lng;
 
 //  Create variable holding the search url including parameters
-    let queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lon + "&radius=10&sort=real_distance&count=5&cuisines=chinese";
+    let queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lon + "&radius=10&sort=real_distance&count=25&cuisines=chinese";
 
 //  AJAX call to Zomato
 $.ajax({
@@ -52,7 +52,25 @@ function zomato(x){
             id: x.restaurants[i].restaurant.id,
             cuisines: x.restaurants[i].restaurant.cuisines
             })
+
+        var restaurant = {
+            category: x.restaurants[i].restaurant.cuisines,
+            lat: x.restaurants[i].restaurant.location.latitude,
+            lng: x.restaurants[i].restaurant.location.longitude,
+            object: {
+                name: x.restaurants[i].restaurant.name,
+                address: x.restaurants[i].restaurant.location.address,
+                suburb: x.restaurants[i].restaurant.location.locality,
+                postcode: x.restaurants[i].restaurant.location.zipcode,
+                url: x.restaurants[i].restaurant.url,
+                map: x.restaurants[i].restaurant.location.address
+                }    
+            }
+    console.log(restaurant)
+    
     }
+
+
 }
 
 });
