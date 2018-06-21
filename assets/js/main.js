@@ -1,59 +1,67 @@
-var config = {
-    apiKey: "AIzaSyCjw3ZOOzTjEiAs4FX0yVvnevh06UwoeMs",
-    authDomain: "fudmeh.firebaseapp.com",
-    databaseURL: "https://fudmeh.firebaseio.com",
-    projectId: "fudmeh",
-    storageBucket: "",
-    messagingSenderId: "426120982640"
-};
-firebase.initializeApp(config);
-
-
-// Create a variable to reference the database
-var database = firebase.database();
-
-//  Create variables for latitude and longitude
-let lat = "";
-let lon = "";
-
-//  Pull users lat and longitude from firebase
-database.ref('location').on('value', function(snapshot){
-    lat = snapshot.val().lat;
-    lon = snapshot.val().lng;
-
-//  Create variable holding the search url including parameters
-    let queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lon + "&radius=10&sort=real_distance&count=5&cuisines=chinese";
-
-//  AJAX call to Zomato
+// main.js
 $.ajax({
-    url: queryURL,
-    method: 'GET',
-    headers : {
-        'Accept': 'application/json',
-        'user-key': 'faf6b95bf12c6d16066378598f219943'
-    }
-}).then(function (response) {
-    //  Calling the zomato JSON information manipulation
-    zomato(response);
-})
+  url: "https://maps.googleapis.com/maps/api/distancematrix/json",
+  type: "GET",
+  data: {
+    origins: $("#origin").val(),
+    destination: $("#destinations").val(),
+    mode: "driving",
+    key: "AIzaSyBZWROu2McODk1fFeC1BZsiIcQ6T1yLB5o"
+  },
+  success: function(data) {
+    console.log(data);
+  }
+});
 
-//  Create function to handle zomato JSON
-function zomato(x){
-    //  Console log the zomato JSON to manipulate
-    console.log(x);
 
-    //  Iterate through the JSON retrived from zomato
-    //  Push zomato JSON to firebase
-    for(var i = 0; i < x.results_shown; i++){
-        database.ref('fuudMeh').push({
-            name: x.restaurants[i].restaurant.name,
-            img: x.restaurants[i].restaurant.photos_url,
-            url: x.restaurants[i].restaurant.url,
-            location: x.restaurants[i].restaurant.location,
-            id: x.restaurants[i].restaurant.id,
-            cuisines: x.restaurants[i].restaurant.cuisines
-            })
-    }
+// --------------------------------------------------------------------------------------- BEGIN Auto-Complete Form
+// Google API auto-complete address form with geo-location assist
+var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']});
+  autocomplete.addListener('place_changed', fillInAddress);
 }
 
-});
+function fillInAddress() {
+  var place = autocomplete.getPlace();
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+// --------------------------------------------------------------------------------------- END Auto-Complete Form
